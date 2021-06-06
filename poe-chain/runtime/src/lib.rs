@@ -280,7 +280,7 @@ construct_runtime!(
 		TransactionPayment: pallet_transaction_payment::{Module, Storage},
 		Sudo: pallet_sudo::{Module, Call, Config<T>, Storage, Event<T>},
 		// Include the custom logic from the template pallet in the runtime.
-		PoeModule: poe::{Module, Call, Storage, Event<T>},
+		Poe: poe::{Module, Call, Storage, Event<T>},
 	}
 );
 
