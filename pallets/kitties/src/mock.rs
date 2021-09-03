@@ -1,4 +1,4 @@
-use crate as pallet_template;
+use crate::{self as pallet_kitties};
 use frame_support::parameter_types;
 use frame_system as system;
 use sp_core::H256;
@@ -18,16 +18,20 @@ frame_support::construct_runtime!(
 		UncheckedExtrinsic = UncheckedExtrinsic,
 	{
 		System: frame_system::{Pallet, Call, Config, Storage, Event<T>},
-		TemplateModule: pallet_template::{Pallet, Call, Storage, Event<T>},
+		Balances: pallet_balances::{Pallet, Call, Storage, Config<T>, Event<T>},
+		RandomnessCollectiveFlip: pallet_randomness_collective_flip::{Pallet, Storage},
+		KittiesModule: pallet_kitties::{Pallet, Call, Storage, Event<T>},
 	}
 );
 
 parameter_types! {
 	pub const BlockHashCount: u64 = 250;
 	pub const SS58Prefix: u8 = 42;
+	pub const ExistentialDeposit: u64 = 1;
 }
 
 impl system::Config for Test {
+	type AccountData = pallet_balances::AccountData<u64>;
 	type BaseCallFilter = frame_support::traits::AllowAll;
 	type BlockWeights = ();
 	type BlockLength = ();
@@ -45,7 +49,6 @@ impl system::Config for Test {
 	type BlockHashCount = BlockHashCount;
 	type Version = ();
 	type PalletInfo = PalletInfo;
-	type AccountData = ();
 	type OnNewAccount = ();
 	type OnKilledAccount = ();
 	type SystemWeightInfo = ();
@@ -53,8 +56,30 @@ impl system::Config for Test {
 	type OnSetCode = ();
 }
 
-impl pallet_template::Config for Test {
+impl pallet_randomness_collective_flip::Config for Test {}
+
+impl pallet_balances::Config for Test {
+	type MaxLocks = ();
+	type Balance = u64;
+	type DustRemoval = ();
 	type Event = Event;
+	type ExistentialDeposit = ExistentialDeposit;
+	type AccountStore = System;
+	type WeightInfo = ();
+	type MaxReserves = ();
+	type ReserveIdentifier = [u8; 8];
+}
+
+parameter_types! {
+	pub const BalanceReservedForNewKitty: u32 = 42;
+}
+
+impl pallet_kitties::Config for Test {
+	type Event = Event;
+	type Randomness = RandomnessCollectiveFlip;
+	type KittyIndex = u32;
+	type Currency = Balances;
+	type CurrencyReservedForNewKitty = BalanceReservedForNewKitty;
 }
 
 // Build genesis storage according to the mock runtime.
