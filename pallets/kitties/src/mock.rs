@@ -71,7 +71,7 @@ impl pallet_balances::Config for Test {
 }
 
 parameter_types! {
-	pub const BalanceReservedForNewKitty: u32 = 42;
+	pub const CurrencyReservedForKitty: u32 = 42;
 }
 
 impl pallet_kitties::Config for Test {
@@ -79,7 +79,7 @@ impl pallet_kitties::Config for Test {
 	type Randomness = RandomnessCollectiveFlip;
 	type KittyIndex = u32;
 	type Currency = Balances;
-	type CurrencyReservedForNewKitty = BalanceReservedForNewKitty;
+	type CurrencyReservedForKitty = CurrencyReservedForKitty;
 }
 
 // Build genesis storage according to the mock runtime.

@@ -36,7 +36,7 @@ pub mod pallet {
 		type Event: From<Event<Self>> + IsType<<Self as frame_system::Config>::Event>;
 		type Randomness: Randomness<Self::Hash, Self::BlockNumber>;
 		type Currency: Currency<Self::AccountId> + ReservableCurrency<Self::AccountId>;
-		type CurrencyReservedForNewKitty: Get<BalanceOf<Self>>;
+		type CurrencyReservedForKitty: Get<BalanceOf<Self>>;
 		type KittyIndex: AtLeast32BitUnsigned
 			+ Bounded
 			+ FullCodec
@@ -106,7 +106,8 @@ pub mod pallet {
 			let who = ensure_signed(origin)?;
 			let kitty_id = Self::kitties_count().unwrap_or(T::KittyIndex::min_value());
 			ensure!(kitty_id != T::KittyIndex::max_value(), Error::<T>::KittiesCountOverflow);
-			// T::Currency::reserve(&to, T::NewKittyReserve::get()).map_err(|_| Error::<T>::MoneyNotEnough )?;
+			T::Currency::reserve(&who, T::CurrencyReservedForKitty::get())
+				.map_err(|_| Error::<T>::NotEnoughBalance)?;
 
 			let dna = Self::random_value(&who);
 
@@ -230,6 +231,10 @@ pub mod pallet {
 			to: T::AccountId,
 			price: BalanceOf<T>,
 		) -> Result<(), DispatchError> {
+			T::Currency::reserve(&to, T::CurrencyReservedForKitty::get() + price)
+				.map_err(|_| Error::<T>::NotEnoughBalance)?;
+			T::Currency::unreserve(&from, T::CurrencyReservedForKitty::get() + price);
+			T::Currency::unreserve(&to, price);
 			T::Currency::transfer(&from, &to, price, ExistenceRequirement::KeepAlive)
 		}
 	}

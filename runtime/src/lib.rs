@@ -273,14 +273,14 @@ impl pallet_template::Config for Runtime {
 }
 
 parameter_types! {
-	pub const BalanceReservedForNewKitty: Balance = 42;
+	pub const CurrencyReservedForKitty: Balance = 42;
 }
 
 impl pallet_kitties::Config for Runtime {
 	type Event = Event;
 	type Randomness = RandomnessCollectiveFlip;
 	type KittyIndex = u32;
-	type CurrencyReservedForNewKitty = BalanceReservedForNewKitty;
+	type CurrencyReservedForKitty = CurrencyReservedForKitty;
 	type Currency = Balances;
 }
 // Create the runtime by composing the FRAME pallets that were previously configured.
