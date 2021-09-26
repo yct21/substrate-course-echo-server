@@ -80,3 +80,7 @@ Writes = 1 + (0 * s)
 ```
 
 [Generated weight](pallets/template/src/weights.rs)
+
+## chain spec
+
+![](./assets/chain-spec.png)
