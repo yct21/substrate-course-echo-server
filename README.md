@@ -1,204 +1,82 @@
-# Substrate Node Template
+# Oneblock advance course - 6
 
-[![Try on playground](https://img.shields.io/badge/Playground-Node_Template-brightgreen?logo=Parity%20Substrate)](https://playground.substrate.dev/?deploy=node-template) [![Matrix](https://img.shields.io/matrix/substrate-technical:matrix.org)](https://matrix.to/#/#substrate-technical:matrix.org)
+## Benchmark and weight generate
 
-A fresh FRAME-based [Substrate](https://www.substrate.io/) node, ready for hacking :rocket:
+Benchmark with native node, for `pallet_template::do_something`:
 
-## Getting Started
+``` text
+Reads = 0 + (0 * s)
+Writes = 1 + (0 * s)
 
-Follow the steps below to get started with the Node Template, or get it up and running right from
-your browser in just a few clicks using [Playground](https://playground.substrate.dev/)
-:hammer_and_wrench:
+Min Squares Analysis
+========
+-- Extrinsic Time --
 
-### Using Nix
+Data points distribution:
+    s   mean µs  sigma µs       %
+    0     4.699     0.035    0.7%
+   20     4.734     0.043    0.9%
+   40     4.699     0.014    0.2%
+   60     4.751     0.029    0.6%
+   80     4.717     0.025    0.5%
+  100     4.707     0.032    0.6%
+  120     4.746     0.029    0.6%
+  140     4.695     0.023    0.4%
+  160     4.713     0.025    0.5%
+  180     4.716     0.036    0.7%
+  200     4.723     0.048    1.0%
+  220     4.734     0.032    0.6%
+  240     4.738     0.046    0.9%
+  260     4.693     0.027    0.5%
+  280       4.7     0.034    0.7%
+  300     4.692     0.024    0.5%
+  320     4.707     0.035    0.7%
+  340     4.735     0.019    0.4%
+  360     4.765     0.032    0.6%
+  380     4.761     0.034    0.7%
+  400     4.766     0.018    0.3%
+  420     4.762     0.061    1.2%
+  440     4.726     0.028    0.5%
+  460     4.755      0.03    0.6%
+  480     4.736      0.06    1.2%
+  500     4.757      0.03    0.6%
+  520      4.77     0.039    0.8%
+  540     4.754     0.031    0.6%
+  560     4.733     0.028    0.5%
+  580     4.723     0.012    0.2%
+  600     4.703      0.04    0.8%
+  620      4.72     0.022    0.4%
+  640     4.717     0.029    0.6%
+  660     4.725     0.036    0.7%
+  680      4.74     0.042    0.8%
+  700     4.763     0.046    0.9%
+  720     4.754     0.012    0.2%
+  740     4.719     0.011    0.2%
+  760     4.725     0.018    0.3%
+  780     4.724     0.028    0.5%
+  800     4.685     0.015    0.3%
+  820     4.732     0.025    0.5%
+  840     4.725     0.027    0.5%
+  860     4.735     0.024    0.5%
+  880     4.729      0.04    0.8%
+  900     4.728     0.032    0.6%
+  920     4.722     0.032    0.6%
+  940     4.749     0.026    0.5%
+  960      4.73     0.018    0.3%
+  980     4.747     0.024    0.5%
+ 1000     4.701     0.025    0.5%
 
-Install [nix](https://nixos.org/) and optionally [direnv](https://github.com/direnv/direnv) and
-[lorri](https://github.com/target/lorri) for a fully plug and play experience for setting up the
-development environment. To get all the correct dependencies activate direnv `direnv allow` and
-lorri `lorri shell`.
+Quality and confidence:
+param     error
+s             0
 
-### Rust Setup
+Model:
+Time ~=    4.724
+    + s        0
+              µs
 
-First, complete the [basic Rust setup instructions](./doc/rust-setup.md).
-
-### Run
-
-Use Rust's native `cargo` command to build and launch the template node:
-
-```sh
-cargo run --release -- --dev --tmp
+Reads = 0 + (0 * s)
+Writes = 1 + (0 * s)
 ```
 
-### Build
-
-The `cargo run` command will perform an initial build. Use the following command to build the node
-without launching it:
-
-```sh
-cargo build --release
-```
-
-### Embedded Docs
-
-Once the project has been built, the following command can be used to explore all parameters and
-subcommands:
-
-```sh
-./target/release/node-template -h
-```
-
-## Run
-
-The provided `cargo run` command will launch a temporary node and its state will be discarded after
-you terminate the process. After the project has been built, there are other ways to launch the
-node.
-
-### Single-Node Development Chain
-
-This command will start the single-node development chain with persistent state:
-
-```bash
-./target/release/node-template --dev
-```
-
-Purge the development chain's state:
-
-```bash
-./target/release/node-template purge-chain --dev
-```
-
-Start the development chain with detailed logging:
-
-```bash
-RUST_BACKTRACE=1 ./target/release/node-template -ldebug --dev
-```
-
-### Connect with Polkadot-JS Apps Front-end
-
-Once the node template is running locally, you can connect it with **Polkadot-JS Apps** front-end
-to interact with your chain. [Click
-here](https://polkadot.js.org/apps/#/explorer?rpc=ws://localhost:9944) connecting the Apps to your
-local node template.
-
-### Multi-Node Local Testnet
-
-If you want to see the multi-node consensus algorithm in action, refer to our
-[Start a Private Network tutorial](https://substrate.dev/docs/en/tutorials/start-a-private-network/).
-
-## Template Structure
-
-A Substrate project such as this consists of a number of components that are spread across a few
-directories.
-
-### Node
-
-A blockchain node is an application that allows users to participate in a blockchain network.
-Substrate-based blockchain nodes expose a number of capabilities:
-
-- Networking: Substrate nodes use the [`libp2p`](https://libp2p.io/) networking stack to allow the
-  nodes in the network to communicate with one another.
-- Consensus: Blockchains must have a way to come to
-  [consensus](https://substrate.dev/docs/en/knowledgebase/advanced/consensus) on the state of the
-  network. Substrate makes it possible to supply custom consensus engines and also ships with
-  several consensus mechanisms that have been built on top of
-  [Web3 Foundation research](https://research.web3.foundation/en/latest/polkadot/NPoS/index.html).
-- RPC Server: A remote procedure call (RPC) server is used to interact with Substrate nodes.
-
-There are several files in the `node` directory - take special note of the following:
-
-- [`chain_spec.rs`](./node/src/chain_spec.rs): A
-  [chain specification](https://substrate.dev/docs/en/knowledgebase/integrate/chain-spec) is a
-  source code file that defines a Substrate chain's initial (genesis) state. Chain specifications
-  are useful for development and testing, and critical when architecting the launch of a
-  production chain. Take note of the `development_config` and `testnet_genesis` functions, which
-  are used to define the genesis state for the local development chain configuration. These
-  functions identify some
-  [well-known accounts](https://substrate.dev/docs/en/knowledgebase/integrate/subkey#well-known-keys)
-  and use them to configure the blockchain's initial state.
-- [`service.rs`](./node/src/service.rs): This file defines the node implementation. Take note of
-  the libraries that this file imports and the names of the functions it invokes. In particular,
-  there are references to consensus-related topics, such as the
-  [longest chain rule](https://substrate.dev/docs/en/knowledgebase/advanced/consensus#longest-chain-rule),
-  the [Aura](https://substrate.dev/docs/en/knowledgebase/advanced/consensus#aura) block authoring
-  mechanism and the
-  [GRANDPA](https://substrate.dev/docs/en/knowledgebase/advanced/consensus#grandpa) finality
-  gadget.
-
-After the node has been [built](#build), refer to the embedded documentation to learn more about the
-capabilities and configuration parameters that it exposes:
-
-```shell
-./target/release/node-template --help
-```
-
-### Runtime
-
-In Substrate, the terms
-"[runtime](https://substrate.dev/docs/en/knowledgebase/getting-started/glossary#runtime)" and
-"[state transition function](https://substrate.dev/docs/en/knowledgebase/getting-started/glossary#stf-state-transition-function)"
-are analogous - they refer to the core logic of the blockchain that is responsible for validating
-blocks and executing the state changes they define. The Substrate project in this repository uses
-the [FRAME](https://substrate.dev/docs/en/knowledgebase/runtime/frame) framework to construct a
-blockchain runtime. FRAME allows runtime developers to declare domain-specific logic in modules
-called "pallets". At the heart of FRAME is a helpful
-[macro language](https://substrate.dev/docs/en/knowledgebase/runtime/macros) that makes it easy to
-create pallets and flexibly compose them to create blockchains that can address
-[a variety of needs](https://www.substrate.io/substrate-users/).
-
-Review the [FRAME runtime implementation](./runtime/src/lib.rs) included in this template and note
-the following:
-
-- This file configures several pallets to include in the runtime. Each pallet configuration is
-  defined by a code block that begins with `impl $PALLET_NAME::Config for Runtime`.
-- The pallets are composed into a single runtime by way of the
-  [`construct_runtime!`](https://crates.parity.io/frame_support/macro.construct_runtime.html)
-  macro, which is part of the core
-  [FRAME Support](https://substrate.dev/docs/en/knowledgebase/runtime/frame#support-library)
-  library.
-
-### Pallets
-
-The runtime in this project is constructed using many FRAME pallets that ship with the
-[core Substrate repository](https://github.com/paritytech/substrate/tree/master/frame) and a
-template pallet that is [defined in the `pallets`](./pallets/template/src/lib.rs) directory.
-
-A FRAME pallet is compromised of a number of blockchain primitives:
-
-- Storage: FRAME defines a rich set of powerful
-  [storage abstractions](https://substrate.dev/docs/en/knowledgebase/runtime/storage) that makes
-  it easy to use Substrate's efficient key-value database to manage the evolving state of a
-  blockchain.
-- Dispatchables: FRAME pallets define special types of functions that can be invoked (dispatched)
-  from outside of the runtime in order to update its state.
-- Events: Substrate uses [events](https://substrate.dev/docs/en/knowledgebase/runtime/events) to
-  notify users of important changes in the runtime.
-- Errors: When a dispatchable fails, it returns an error.
-- Config: The `Config` configuration interface is used to define the types and parameters upon
-  which a FRAME pallet depends.
-
-### Run in Docker
-
-First, install [Docker](https://docs.docker.com/get-docker/) and
-[Docker Compose](https://docs.docker.com/compose/install/).
-
-Then run the following command to start a single node development chain.
-
-```bash
-./scripts/docker_run.sh
-```
-
-This command will firstly compile your code, and then start a local development network. You can
-also replace the default command
-(`cargo build --release && ./target/release/node-template --dev --ws-external`)
-by appending your own. A few useful ones are as follow.
-
-```bash
-# Run Substrate node without re-compiling
-./scripts/docker_run.sh ./target/release/node-template --dev --ws-external
-
-# Purge the local dev chain
-./scripts/docker_run.sh ./target/release/node-template purge-chain --dev
-
-# Check whether the code is compilable
-./scripts/docker_run.sh cargo check
-```
+[Generated weight](pallets/template/src/weights.rs)
